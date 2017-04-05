@@ -1,4 +1,4 @@
-# dockerforlizardz/openswiv:jessie - Raspbian Jessie image with Opencv3
+# dockerforlizardz/openswiv:opencv3rpi - Raspbian Jessie image with OpenCV3
 # Ryan Drew, 2017
 #https://www.theimpossiblecode.com/blog/build-faster-opencv-raspberry-pi3/
 #https://www.theimpossiblecode.com/blog/intel-tbb-on-raspberry-pi/
@@ -11,15 +11,15 @@ FROM resin/rpi-raspbian:jessie
 # Change shell to bash and create opencv user
 SHELL ["/bin/bash", "--login", "-c"]
 RUN adduser --disabled-password --gecos "" cvclient && \
-    echo "cvclient ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
-    touch /home/cvclient/.bashrc
+	echo "cvclient ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
+	touch /home/cvclient/.bashrc
 USER cvclient
 WORKDIR /home/cvclient
 
 # Install dependencies
 RUN sudo apt-get update && \
 	sudo apt-get install -y --no-install-recommends \
-        apt-utils \
+		apt-utils \
 		build-essential \
 		checkinstall \
 		cmake \
@@ -38,11 +38,11 @@ RUN sudo apt-get update && \
 		libx264-dev \
 		pkg-config \
 		python3-pip \
-        python3-dev \
-        tar \
+		python3-dev \
+		tar \
 		unzip && \
-    sudo apt-get clean && \
-    sudo rm -rf /var/lib/apt/lists/*
+	sudo apt-get clean && \
+	sudo rm -rf /var/lib/apt/lists/*
 
 # Create virtual environment
 ENV WORKON_HOME=/home/cvclient/.virtualenvs
@@ -53,10 +53,10 @@ RUN sudo pip3 install \
 		virtualenvwrapper && \
 	sudo rm -rf /home/cvclient/.cache/pip && \
 	cd /home/cvclient && \
-    echo 'source /usr/local/bin/virtualenvwrapper.sh' >> .profile && \
+	echo 'source /usr/local/bin/virtualenvwrapper.sh' >> .profile && \
 	source .profile && \
 	mkvirtualenv opencv3 -p python3 && \
-    echo 'workon opencv3' >> .profile
+	echo 'workon opencv3' >> .profile
 
 # Install TBB
 RUN curl -o tbb44_20160526oss_src_0.tgz \
@@ -109,14 +109,14 @@ RUN curl -L -o opencv_contrib-3.2.0.zip https://github.com/Itseez/opencv_contrib
 		-DWITH_TBB=ONE \
 		-DCMAKE_INSTALL_PREFIX=/home/cvclient/.virtualenvs/opencv3/local \
 		-DOPENCV_EXTRA_MODULES_PATH=/home/cvclient/opencv_contrib-3.2.0/modules \
-        -DPYTHON_EXECUTABLE=/home/cvclient/.virtualenvs/opencv3/bin/python\
-        -DPYTHON_PACKAGES_PATH=/home/cvclient/.virtualenvs/opencv3/lib/python3.4/site-packages .. && \
-    make -j 4 && \
-    sudo make install && \
+		-DPYTHON_EXECUTABLE=/home/cvclient/.virtualenvs/opencv3/bin/python\
+		-DPYTHON_PACKAGES_PATH=/home/cvclient/.virtualenvs/opencv3/lib/python3.4/site-packages .. && \
+	make -j 4 && \
+	sudo make install && \
 	sudo ldconfig && \
 	cd /home/cvclient && \
 	rm -r opencv_contrib-3.2.0 && \
 	rm -r opencv-3.2.0 && \
-    deactivate
+	deactivate
 
 ENTRYPOINT ["/bin/bash", "--login"]
