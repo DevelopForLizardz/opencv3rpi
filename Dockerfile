@@ -1,4 +1,4 @@
-# dockerforlizardz/openswif:jessie - Raspbian Jessie image with Opencv3
+# dockerforlizardz/openswiv:jessie - Raspbian Jessie image with Opencv3
 # Ryan Drew, 2017
 #https://www.theimpossiblecode.com/blog/build-faster-opencv-raspberry-pi3/
 #https://www.theimpossiblecode.com/blog/intel-tbb-on-raspberry-pi/
