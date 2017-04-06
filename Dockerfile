@@ -86,7 +86,8 @@ RUN curl -o tbb44_20160526oss_src_0.tgz \
 	sudo dpkg -i libtbb-dev_4.5-1_armhf.deb && \
 	sudo ldconfig && \
 	sudo rm -r tbb44_20160526oss && \
-	sudo rm -r libtbb-dev_4.5-1_armhf
+	sudo rm -r libtbb-dev_4.5-1_armhf && \
+	sudo rm libtbb-dev_4.5-1_armhf.deb
 
 # Install numpy
 RUN pip install --no-cache --extra-index-url=https://gergely.imreh.net/wheels numpy
